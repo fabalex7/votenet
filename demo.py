@@ -29,8 +29,6 @@ sys.path.append(os.path.join(ROOT_DIR, 'models'))
 from pc_util import random_sampling, read_ply
 from ap_helper import parse_predictions
 
-from dump_helper import dump_results
-
 def preprocess_point_cloud(point_cloud):
     ''' Prepare the numpy point cloud (N,3) for forward pass '''
     point_cloud = point_cloud[:,0:3] # do not use color for now
@@ -49,10 +47,7 @@ if __name__=='__main__':
         sys.path.append(os.path.join(ROOT_DIR, 'sunrgbd'))
         from sunrgbd_detection_dataset import DC # dataset config
         checkpoint_path = os.path.join(demo_dir, 'pretrained_votenet_on_sunrgbd.tar')
-        checkpoint_path = os.path.join(demo_dir, 'checkpoint_trained_sunrgbd.tar') # CHANGED
         pc_path = os.path.join(demo_dir, 'input_pc_sunrgbd.ply')
-        pc_path = os.path.join(demo_dir, 'generated_pc_from_png.ply') # CHANGED
-        pc_path = os.path.join(demo_dir, 'sofa_rotated.ply') # CHANGED
     elif FLAGS.dataset == 'scannet':
         sys.path.append(os.path.join(ROOT_DIR, 'scannet'))
         from scannet_detection_dataset import DC # dataset config
@@ -99,10 +94,9 @@ if __name__=='__main__':
     print('Inference time: %f'%(toc-tic))
     end_points['point_clouds'] = inputs['point_clouds']
     pred_map_cls = parse_predictions(end_points, eval_config_dict)
-    end_points['batch_pred_map_cls'] = pred_map_cls
     print('Finished detection. %d object detected.'%(len(pred_map_cls[0])))
   
     dump_dir = os.path.join(demo_dir, '%s_results'%(FLAGS.dataset))
     if not os.path.exists(dump_dir): os.mkdir(dump_dir) 
-    dump_results(end_points, dump_dir, DC, True)
+    MODEL.dump_results(end_points, dump_dir, DC, True)
     print('Dumped detection results to folder %s'%(dump_dir))
