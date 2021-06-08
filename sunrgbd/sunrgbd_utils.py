@@ -18,6 +18,7 @@ import os
 import scipy.io as sio # to load .mat files for depth points
 
 type2class={'bed':0, 'table':1, 'sofa':2, 'chair':3, 'toilet':4, 'desk':5, 'dresser':6, 'night_stand':7, 'bookshelf':8, 'bathtub':9}
+type2class = {'bag':0, 'books':1, 'bookshelf':2,'shelves':2, 'box':3, 'cabinet':4, 'dresser':4, 'chair':5, 'desk':6, 'table':6, 'door':7, 'fridge':8, 'lamp':9, 'pillow':10, 'sink':11, 'sofa':12, 'tv':13, 'whiteboard':14} # CHANGED
 class2type = {type2class[t]:t for t in type2class}
 
 

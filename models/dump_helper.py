@@ -88,6 +88,17 @@ def dump_results(end_points, dump_dir, config, inference_switch=False):
                 pc_util.write_oriented_bbox(obbs[pred_mask[i,:]==1,:], os.path.join(dump_dir, '%06d_pred_nms_bbox.ply'%(idx_beg+i)))
                 pc_util.write_oriented_bbox(obbs, os.path.join(dump_dir, '%06d_pred_bbox.ply'%(idx_beg+i)))
 
+    # WE included batch_pred_map_cls
+    if 'batch_pred_map_cls' in end_points:
+        for ii in range(batch_size):
+            fout = open(os.path.join(dump_dir, '%06d_pred_map_cls.txt'%(ii)), 'w')
+            for t in end_points['batch_pred_map_cls'][ii]:
+                fout.write(str(t[0])+' ')
+                fout.write(",".join([str(x) for x in list(t[1].flatten())]))
+                fout.write(' '+str(t[2]))
+                fout.write('\n')
+            fout.close()
+    
     # Return if it is at inference time. No dumping of groundtruths
     if inference_switch:
         return
