@@ -22,6 +22,7 @@ from proposal_module import ProposalModule
 from dump_helper import dump_results
 from loss_helper import get_loss
 
+from ap_helper import parse_predictions
 
 class VoteNet(nn.Module):
     r"""
@@ -109,32 +110,50 @@ if __name__=='__main__':
     from sunrgbd_detection_dataset import SunrgbdDetectionVotesDataset, DC
     from loss_helper import get_loss
 
+    eval_config_dict = {'remove_empty_box': True, 'use_3d_nms': True, 'nms_iou': 0.25,
+        'use_old_type_nms': False, 'cls_nms': False, 'per_class_proposal': False,
+        'conf_thresh': 0.5, 'dataset_config': DC}
+
     # Define model
     model = VoteNet(10,12,10,np.random.random((10,3))).cuda()
     
     try:
         # Define dataset
         TRAIN_DATASET = SunrgbdDetectionVotesDataset('train', num_points=20000, use_v1=True)
-
+        print("size of TDS", len(TRAIN_DATASET))
         # Model forward pass
-        sample = TRAIN_DATASET[5]
+        sample = TRAIN_DATASET[1645] # 1645 <=> 6696 
+        print("sample index", TRAIN_DATASET.scan_names[1645])
+        sample = {'point_clouds':TRAIN_DATASET[1645]['point_clouds']}
+        print("sample type", type(sample['point_clouds']))
+        print("sample shape", sample['point_clouds'].shape)
+        
+        data_point = np.load("/home/dfki-see/Desktop/006696_pc/pc.npy")
+        data_point = data_point[:,0:3]
+        sample = {'point_clouds':data_point}
+        print("type of point cloud", type(sample['point_clouds']))
+        print("sample shape", sample['point_clouds'].shape)
+
         inputs = {'point_clouds': torch.from_numpy(sample['point_clouds']).unsqueeze(0).cuda()}
     except:
         print('Dataset has not been prepared. Use a random sample.')
         inputs = {'point_clouds': torch.rand((20000,3)).unsqueeze(0).cuda()}
 
     end_points = model(inputs)
-    for key in end_points:
-        print(key, end_points[key])
+    # for key in end_points:
+    #     print(key, end_points[key])
 
     try:
         # Compute loss
-        for key in sample:
-            end_points[key] = torch.from_numpy(sample[key]).unsqueeze(0).cuda()
-        loss, end_points = get_loss(end_points, DC)
-        print('loss', loss)
+        # for key in sample:
+        #     end_points[key] = torch.from_numpy(sample[key]).unsqueeze(0).cuda()
+        # loss, end_points = get_loss(end_points, DC)
+        # print('loss', loss)
         end_points['point_clouds'] = inputs['point_clouds']
         end_points['pred_mask'] = np.ones((1,128))
-        dump_results(end_points, 'tmp', DC)
-    except:
+        pred_map_cls = parse_predictions(end_points, eval_config_dict)
+        end_points['batch_pred_map_cls'] = pred_map_cls
+        print('Finished detection. %d object detected.'%(len(pred_map_cls[0])))
+        dump_results(end_points, 'tmp', DC, True)
+    except Exception:
         print('Dataset has not been prepared. Skip loss and dump.')

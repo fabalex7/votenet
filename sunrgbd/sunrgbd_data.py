@@ -28,6 +28,8 @@ import sunrgbd_utils
 
 DEFAULT_TYPE_WHITELIST = ['bed','table','sofa','chair','toilet','desk','dresser','night_stand','bookshelf','bathtub']
 
+DEFAULT_TYPE_WHITELIST = ['bag','books','bookshelf','shelves','box','cabinet','dresser','chair','desk','table','door','fridge','lamp', 'pillow', 'sink', 'sofa', 'tv', 'whiteboard'] # 18 categories
+
 class sunrgbd_object(object):
     ''' Load and parse object data '''
     def __init__(self, root_dir, split='training', use_v1=False):
@@ -283,7 +285,8 @@ def get_box3d_dim_statistics(idx_filename,
             type_list.append(obj.classname) 
             ry_list.append(heading_angle)
 
-    import cPickle as pickle
+    #import cPickle as pickle
+    import pickle 
     if save_path is not None:
         with open(save_path,'wb') as fp:
             pickle.dump(type_list, fp)
