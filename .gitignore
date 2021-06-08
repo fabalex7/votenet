@@ -1,10 +1,10 @@
-	demo_files/*
-	eval_scannet/*
-	models/__pycache__/*
-	pointnet2/__pycache__/*
-	pointnet2/build/*
-	pointnet2/dist/*
-	pointnet2/pointnet2.egg-info/*
-	scannet/__pycache__/*
-	sunrgbd/__pycache__/*
-	sunrgbd/data_viz_dump/*
+demo_files/*
+eval_scannet/*
+models/__pycache__/*
+pointnet2/__pycache__/*
+pointnet2/build/*
+pointnet2/dist/*
+pointnet2/pointnet2.egg-info/*
+scannet/__pycache__/*
+sunrgbd/__pycache__/*
+sunrgbd/data_viz_dump/*
