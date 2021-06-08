@@ -26,8 +26,6 @@ sys.path.append(os.path.join(BASE_DIR, '../utils/'))
 import pc_util
 import sunrgbd_utils
 
-DEFAULT_TYPE_WHITELIST = ['bed','table','sofa','chair','toilet','desk','dresser','night_stand','bookshelf','bathtub']
-
 DEFAULT_TYPE_WHITELIST = ['bag','books','bookshelf','shelves','box','cabinet','dresser','chair','desk','table','door','fridge','lamp', 'pillow', 'sink', 'sofa', 'tv', 'whiteboard'] # 18 categories
 
 class sunrgbd_object(object):
