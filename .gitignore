@@ -1,6 +1,7 @@
 demo_files/*
 eval_scannet/*
 models/__pycache__/*
+models/*
 pointnet2/__pycache__/*
 pointnet2/build/*
 pointnet2/dist/*
