@@ -194,7 +194,10 @@ def read_ply(filename):
     """ read XYZ point cloud from filename PLY file """
     plydata = PlyData.read(filename)
     pc = plydata['vertex'].data
-    pc_array = np.array([[x, y, z] for x,y,z in pc])
+    try:
+        pc_array = np.array([[x, y, z] for x,y,z in pc])
+    except:
+        pc_array = np.array([[x, y, z] for x,y,z,r,g,b,a,b,c in pc]) # CHANGED
     return pc_array
 
 
