@@ -34,6 +34,7 @@ class SunrgbdDatasetConfig(object):
                                 'fridge': np.array([0.732086,0.754600,1.650000]),
                                 'lamp': np.array([0.367022,0.379614,0.690910]),
                                 'pillow': np.array([0.355497,0.560770,0.318182]),
+                                'shelves': np.array([0.402985,1.063498,1.727273]),
                                 'sink': np.array([0.502248,0.599351,0.457344]),
                                 'sofa': np.array([0.924369,1.875018,0.847046]),
                                 'table': np.array([0.792666,1.285808,0.718182]),
