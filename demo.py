@@ -50,9 +50,11 @@ if __name__=='__main__':
         from sunrgbd_detection_dataset import DC # dataset config
         checkpoint_path = os.path.join(demo_dir, 'pretrained_votenet_on_sunrgbd.tar')
         checkpoint_path = os.path.join(demo_dir, 'checkpoint_trained_sunrgbd.tar') # CHANGED
+        checkpoint_path = os.path.join(demo_dir, 'checkpoint_fused.tar') # CHANGED
+
         pc_path = os.path.join(demo_dir, 'input_pc_sunrgbd.ply')
         pc_path = os.path.join(demo_dir, 'generated_pc_from_png.ply') # CHANGED
-        pc_path = os.path.join(demo_dir, 'sofa_rotated.ply') # CHANGED
+        pc_path = os.path.join(demo_dir, 'tv_rotated.ply') # CHANGED
     elif FLAGS.dataset == 'scannet':
         sys.path.append(os.path.join(ROOT_DIR, 'scannet'))
         from scannet_detection_dataset import DC # dataset config
